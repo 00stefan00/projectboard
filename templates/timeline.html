@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}FastAPI Starter{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+
+<h1>
+    PE Project Planning
+</h1>
+
+<div id="timeline_container" style="height: 1000px;"></div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="{{ url_for('static', path='js/external/vis.js') }}"></script>
+
+<script type="text/javascript">
+  // create groups
+  var numberOfGroups = 8;
+  var groups = new vis.DataSet([
+  { id: 0, content: "Henk", stackSubgroups: false, subgroupVisibility: true},
+  { id: 1, content: "Dude ", stackSubgroups: false, subgroupVisibility: true},
+  { id: 2, content: "Bob", stackSubgroups: false, subgroupVisibility: true},
+  ]);
+
+  var colors = ["red", "green", "orange", "magenta"]
+  // create items
+  var items = new vis.DataSet();
+
+  // items.add({
+  //       group: 1,
+  //       start: new Date(2023, 6, 6),
+  //       end: new Date(2023, 6, 26),
+  //       content: "Project 1",
+  //     });
+
+  // items.add({
+  //       group: 1,
+  //       start: new Date(2023, 5, 1),
+  //       end: new Date(2023, 8, 1),
+  //       content: "Project 2 ",
+  //     });
+
+  // items.add({
+  //       group: 2,
+  //       start: new Date(2023, 5, 10),
+  //       end: new Date(2023, 7, 10),
+  //       content: "Project 3 ",
+  //     });
+
+  
+
+  // specify options
+  var options = {
+    width: '100%',
+    stack: true,
+    timeAxis: { scale: 'week', step: 1},
+    horizontalScroll: false,
+    zoomKey: "ctrlKey",
+    maxHeight: 800,
+    start: new Date(2023, 4, 1),
+    end: new Date(2023, 8, 31),
+    editable: false,
+    margin: {
+      item: 10, // minimal margin between items
+      axis: 5, // minimal margin between items and the axis
+    },
+    orientation: "both",
+    stackSubgroups: false,
+  };
+
+  // create a Timeline
+  var container = document.getElementById("timeline_container");
+  var timeline = new vis.Timeline(container, items, groups, options);
+
+  addItem(1, new Date(2023, 6, 6), new Date(2023, 6, 26), "23-001 Project 1")
+  addItem(2, new Date(2023, 5, 1), new Date(2023, 8, 1), "23-002 Project 2")
+  addItem(1, new Date(2023, 5, 10), new Date(2023, 7, 10), "23-003 Project 3")
+  addItem(0, new Date(2023, 5, 10), new Date(2023, 6, 10), "23-005 Project 4")
+  addItem(0, new Date(2023, 7, 10), new Date(2023, 8, 10), "23-005 Project 5")
+  addItem(0, new Date(2023, 5, 10), new Date(2023, 6, 10), "23-006 Project 6")
+  addItem(0, new Date(2023, 7, 10), new Date(2023, 8, 10), "23-007 Project 7")
+
+
+// function setItemColors(){
+//   timeline.itemsData.foreach(setItemColors)
+//   timeline.itemsData.update({id: 1, content: ' <span class="" style="color:green;">' + timeline.itemsData.get(1).content + '</span>'})
+// }
+
+  function addItem(groupId, startDate, endDate, Text) {
+    timeline.itemsData.update({
+        group: groupId,
+        start: startDate,
+        end: endDate,
+        content: Text,
+        className: colors[groupId],
+        subgroup: Text.slice(0,6),
+    })
+  }
+</script>
+
+
+{% endblock %}

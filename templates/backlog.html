@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}FastAPI Starter{% endblock %}
+
+{% block head %}{{ super() }}{% endblock %}
+
+{% block page_content %}
+
+<h1>
+    PE Project Planning
+</h1>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#backlogFormModal">
+  +
+</button>
+
+<table class="table table-bordered table-hover table-striped" id="backlogTable">
+    <thead class="thead-dark">
+      <TR>
+         <th onclick="sortTable(0, 'backlogTable')"></th>
+         <th onclick="sortTable(1, 'backlogTable')">Name</th>
+         <th onclick="sortTable(2, 'backlogTable')">Description</th>
+         <th onclick="sortTable(3, 'backlogTable')">Load</th>
+         <th onclick="sortTable(4, 'backlogTable')">Priority</th>
+         <th onclick="sortTable(5, 'backlogTable')">Deadline</th>
+      </TR>
+   </thead>
+
+{% for item in data['items'] %}
+
+<TR>
+   <TD class="c1"><IMG src="favicon.png"></TD>
+   <TD class="c2">{{item.name}}</TD>
+   <TD class="c3">{{item.description}}</TD>
+   <TD class="c4"><SPAN>{{item.loadAsString}}</SPAN></TD>
+   <TD class="c5"><SPAN>{{item.priorityAsString}}</SPAN></TD>
+   <TD class="c6"><SPAN>{{item.deadline}}</SPAN></TD>
+</TR>
+{% endfor %}
+</table>
+
+{% include 'backlogform.html' %}
+
+{{data.page}}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', path='js/tablesort.js') }}"></script>
+{% endblock %}

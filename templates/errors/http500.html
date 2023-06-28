@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}PPP{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+
+{% block page_content %}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="page-404">
+    <div class="outer">
+        <div class="middle">
+            <div class="inner">
+                <!--BEGIN CONTENT-->
+                <div class="inner-circle"><i class="fa fa-cogs"></i><span>500</span></div>
+                <span class="inner-status">Oops, either some stuff, or some things went completely wrong</span>
+                <span class="inner-detail">Go back to the homepage, or send the information below to some nerd responsible for this stuff</span>
+                
+                <details>
+                    <summary>Nerd information</summary>
+                    <p>{{data['error_message']}}</p>
+                </details>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{data.page}}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+
+{% endblock %}
