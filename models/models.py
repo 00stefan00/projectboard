@@ -61,11 +61,20 @@ class User(SQLModel, table=True):
             session.add(self)
             session.commit()
 
+    @staticmethod
     def get_users():
         with Session(engine) as session:
             statement = select(User)
             results = session.exec(statement).all()
             return results
+
+    @staticmethod
+    def get_user(username):
+        all_users = User.get_users()
+        for user in all_users:
+            if user.email == username:
+                return user
+        return None
 
 
 def create_db_and_tables():

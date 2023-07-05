@@ -14,6 +14,11 @@
           {% for error in errors %}
             <li>{{error}}</li>
           {% endfor %}
+
+          <br>
+          {% if exception %}
+            <li>{{exception.detail}}</li>
+          {% endif %}
       </div>
 
       <div class="text-success font-weight-bold">
@@ -27,10 +32,10 @@
 
 
     <div class="row my-5">
-      <form method="POST">
+      <form method="POST" action="/login">
         <div class="mb-3">
           <label>Email</label>
-          <input type="text" required placeholder="" name="email" value="{{email}}" class="form-control">
+          <input type="text" required placeholder="" name="username" value="{{username}}" class="form-control">
         </div>
         <div class="mb-3">
           <label>Password</label>

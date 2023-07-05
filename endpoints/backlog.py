@@ -1,13 +1,13 @@
 """This is an example usage of fastapi-sso.
 """
-from endpoints.auth.basicAuth import User
-from endpoints.auth.basicAuth import get_current_active_user
+from utils.auth_utils import get_current_user
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.exc import IntegrityError
+from schemas.auth_schemas import SystemUser
 from starlette.requests import Request
 from typing import Annotated
 
@@ -18,7 +18,7 @@ router = APIRouter()
 
 
 @router.get("/backlog", response_class=HTMLResponse)
-async def backlog(request: Request, current_user: Annotated[User, Depends(get_current_active_user)]):
+async def backlog(request: Request, current_user: Annotated[SystemUser, Depends(get_current_user)]):
     items = Projectinfo.get_projectinfo()
     data = {
         "items": items
@@ -27,7 +27,7 @@ async def backlog(request: Request, current_user: Annotated[User, Depends(get_cu
 
 
 @router.post("/backlog")
-async def submit_form(request: Request, current_user: Annotated[User, Depends(get_current_active_user)]):
+async def submit_form(request: Request, current_user: Annotated[SystemUser, Depends(get_current_user)]):
     form_data = await request.form()
     title = form_data.get("title")
     description = form_data.get("description")
